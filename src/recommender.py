@@ -1,6 +1,5 @@
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
-
 @dataclass
 class Song:
     """
@@ -27,8 +26,11 @@ class UserProfile:
     favorite_genre: str
     favorite_mood: str
     target_energy: float
-    likes_acoustic: bool
-
+    target_acoustic: float
+    target_valence: float
+    target_danceability: float
+    target_tempo_bpm: float
+    
 class Recommender:
     """
     OOP implementation of the recommendation logic.
@@ -44,6 +46,16 @@ class Recommender:
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
         # TODO: Implement explanation logic
         return "Explanation placeholder"
+
+userProfile = UserProfile(
+    favorite_genre="pop",
+    favorite_mood="happy",
+    target_energy=0.75,
+    target_acoustic=0.20,
+    target_valence=0.75,
+    target_danceability=0.75,
+    target_tempo_bpm=120.0
+)
 
 def load_songs(csv_path: str) -> List[Dict]:
     """

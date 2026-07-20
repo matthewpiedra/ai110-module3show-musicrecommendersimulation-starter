@@ -22,12 +22,18 @@ Explain your design in plain language.
 Some prompts to answer:
 
 - What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
+  - Features include categorical metadata, such as genre, mood, artist
+  - And numeric audio attributes, such as energy, tempo_bpm, valence, etc.
 - What information does your `UserProfile` store
+  - Preferences for categorical metadata, such as favorite genres, moods, and artists
+  - Preferences for numeric audio attributes, such as preferred energy, tempo_bpm, valence, etc.
 - How does your `Recommender` compute a score for each song
+  - Take the absolute difference between the song's value and the user's preferred value
+  - Weighted values
 - How do you choose which songs to recommend
+  - Recommend the songs with the lowest total difference scores (Scoring rule)
 
-You can include a simple diagram or bullet list if helpful.
+Plan: Use a weighted table scoring format to compute the score of each song against the target user profile. Some preferences should hold more weight than other preferences, such as Mood and genre since they are binary and either match or don't, with no partial credit. Other preferences will be computed by similarity which naturally produces partial credit. We can't let a single categorical match dominate the score though.
 
 ---
 
