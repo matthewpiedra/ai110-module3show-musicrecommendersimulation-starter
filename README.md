@@ -78,11 +78,24 @@ Paste a sample of your recommender's output here as a text block so a reader can
 
 ```
 # e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+User profile: genre=pop, mood=happy, energy=0.8 (high)
+
+Top recommendations:
+
+Sunrise City - Score: 54.70
+Because: mood match (+25.0), genre match (+15.0), energy similarity (+14.7)
+
+Rooftop Lights - Score: 39.40
+Because: mood match (+25.0), energy similarity (+14.4)
+
+Gym Hero - Score: 28.05
+Because: genre match (+15.0), energy similarity (+13.1)
+
+Concrete Kingdom - Score: 15.00
+Because: energy similarity (+15.0)
+
+Night Drive Loop - Score: 14.25
+Because: energy similarity (+14.2)
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
