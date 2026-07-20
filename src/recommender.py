@@ -81,10 +81,50 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """
     Scores a single song against user preferences.
     Required by recommend_songs() and src/main.py
+
+    Algorithm Recipe (Phase 2):
+      - mood match:          +25 pts (categorical, strongest single signal)
+      - genre match:         +15 pts (categorical, weaker than mood)
+      - valence similarity:  up to 15 pts
+      - energy similarity:   up to 15 pts
+      - danceability sim.:   up to 10 pts
+      - acousticness sim.:   up to 10 pts
+      - tempo_bpm sim.:      up to 10 pts (normalized, since bpm isn't 0-1)
+    Any preference key not present in user_prefs is simply skipped.
     """
-    # TODO: Implement scoring logic using your Algorithm Recipe from Phase 2.
-    # Expected return format: (score, reasons)
-    return []
+    score = 0.0
+    reasons: List[str] = []
+
+    if "mood" in user_prefs and song.get("mood") == user_prefs["mood"]:
+        score += 25.0
+        reasons.append("mood match (+25.0)")
+
+    if "genre" in user_prefs and song.get("genre") == user_prefs["genre"]:
+        score += 15.0
+        reasons.append("genre match (+15.0)")
+
+    numeric_weights = {
+        "valence": 15.0,
+        "energy": 15.0,
+        "danceability": 10.0,
+        "acousticness": 10.0,
+    }
+    for key, weight in numeric_weights.items():
+        if key in user_prefs and key in song:
+            diff = abs(float(song[key]) - float(user_prefs[key]))
+            similarity = max(0.0, 1 - diff)
+            points = similarity * weight
+            score += points
+            reasons.append(f"{key} similarity (+{points:.1f})")
+
+    if "tempo_bpm" in user_prefs and "tempo_bpm" in song:
+        diff = abs(float(song["tempo_bpm"]) - float(user_prefs["tempo_bpm"])) / 120.0
+        similarity = max(0.0, 1 - diff)
+        points = similarity * 10.0
+        score += points
+        reasons.append(f"tempo similarity (+{points:.1f})")
+
+    return score, reasons
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """
